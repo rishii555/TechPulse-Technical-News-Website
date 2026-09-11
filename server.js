@@ -111,7 +111,12 @@ app.get("/api/articles", async (req, res) => {
   try {
     latestArticles = await fetchNewsApi(query, category);
     const results = filterArticles(latestArticles, query, category);
-    res.json({ articles: results, total: results.length, source: "newsapi" });
+    const topics = latestArticles.slice(0, 5).map((article) => ({
+      title: article.title,
+      id: article.id,
+      reads: article.source || article.author,
+    }));
+    res.json({ articles: results, total: results.length, source: "newsapi", topics });
   } catch (error) {
     console.error(`NewsAPI unavailable: ${error.message}`);
     res.status(503).json({ error: "Live news is temporarily unavailable." });
@@ -134,6 +139,10 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "ok", service: "techpulse-api" });
 });
 
-app.listen(PORT, () => {
-  console.log(`TechPulse running at http://localhost:${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`TechPulse running at http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;

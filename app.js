@@ -9,11 +9,8 @@ async function loadArticles() {
     const articleResponse = await fetch("/api/articles");
     if (!articleResponse.ok) throw new Error("Live news API request failed");
     const articleData = await articleResponse.json();
-    const trendResponse = await fetch("/api/trending");
-    if (!trendResponse.ok) throw new Error("Live trends API request failed");
-    const trendData = await trendResponse.json();
     articles = articleData.articles;
-    trends = trendData.topics;
+    trends = articleData.topics || [];
     if (!articles.length)
       throw new Error("The live news API returned no stories");
     route();

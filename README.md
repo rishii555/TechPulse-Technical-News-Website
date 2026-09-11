@@ -20,6 +20,10 @@ npm run dev
 
 `NEWS_API_KEY` is required because the site displays live NewsAPI stories only. Then visit `http://localhost:8000`. The API is available at `/api/articles`, `/api/articles/:id`, `/api/trending`, and `/api/health`.
 
+## Deploy to Vercel
+
+Import the repository into Vercel, keep the framework preset as **Other**, and add `NEWS_API_KEY` under Project Settings > Environment Variables for Production (and Preview if needed). Vercel will use `api/index.js` as the serverless entrypoint. Do not commit `.env`.
+
 ## Structure
 
 - `index.html` - semantic shell, navigation, footer
